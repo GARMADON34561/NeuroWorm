@@ -1,0 +1,28 @@
+Port Discovery
+
+0400 = Internal Motor A (assumed)
+
+0401 = Internal Motor B (assumed)
+
+0402 = External Motor C
+
+0403 = Sensor D
+
+Keepalive
+
+TX:
+0500010100
+
+RX:
+0500050105
+
+Motor Test
+
+Port 0:
+050082000a
+
+Port 1:
+050082010a
+
+Port 2:
+050082020a

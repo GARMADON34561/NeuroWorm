@@ -1,0 +1,30 @@
+Laptop
+↓
+Python
+↓
+BLE
+↓
+Move Hub
+↓
+Motor Movement
+
+
+
+2026-11-01
+
+NeuroWorm v0.3
+
+Real sensor values successfully stimulate
+an artificial neuron.
+
+Neuron accumulates potential,
+fires when threshold reached,
+and activates motor behavior.
+
+Sensor D
+ ↓
+Neuron
+ ↓
+Motor C
+
+Successfully demonstrated.

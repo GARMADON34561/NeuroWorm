@@ -1,0 +1,56 @@
+Session 1
+
+Hub Address:
+00:16:53:B2:69:3B
+
+Characteristic:
+00001624-1212-efde-1623-785feabcd123
+
+Important Findings:
+
+- Notifications work.
+- Hub sends startup packet burst.
+- Hub disconnects after ~7 seconds when idle.
+- Packet 05 00 01 01 00 keeps session alive.
+- Hub responds with 05 00 05 01 05.
+
+
+
+
+Session 2
+
+KEEPALIVE:
+TX = 0500010100
+RX = 0500050105
+
+Keeps session alive indefinitely.
+
+Observed dynamic packets:
+
+0500040200
+0500040300
+
+Likely associated with port attachment events.
+
+Observed Ports
+
+Session 3
+
+KEEPALIVE
+TX:
+0500010100
+
+RX:
+0500050105
+
+Observed Port Mapping
+
+0402 -> external motor on C
+
+0403 -> sensor on D
+
+Attachment packet examples
+
+0f0004020126000000001000000010
+
+0f0004030125000000001000000010
