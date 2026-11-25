@@ -4,20 +4,15 @@ from bleak import BleakClient
 ADDRESS = "00:16:53:B2:69:3B"
 CHAR = "00001624-1212-efde-1623-785feabcd123"
 
-latest = 255
-
 COLOR_MAP = {
-
-    255: "NONE",
-
     0: "BLACK",
-
     5: "GREEN",
-
     7: "YELLOW",
-
     9: "RED",
+    255: "NONE"
 }
+
+latest = 255
 
 
 def callback(sender, data):
@@ -34,14 +29,6 @@ def callback(sender, data):
         )
 
 
-KEEPALIVE = bytes([
-    0x05,
-    0x00,
-    0x01,
-    0x01,
-    0x00
-])
-
 ENABLE_MODE0 = bytes([
     0x0A,
     0x00,
@@ -56,13 +43,20 @@ ENABLE_MODE0 = bytes([
 ])
 
 
+KEEPALIVE = bytes([
+    0x05,
+    0x00,
+    0x01,
+    0x01,
+    0x00
+])
+
+
 async def main():
 
     async with BleakClient(
         ADDRESS
     ) as client:
-
-        print("Connected")
 
         await client.start_notify(
             CHAR,
@@ -75,22 +69,36 @@ async def main():
             response=False
         )
 
+        print()
+        print("Present colors.")
+        print()
+
         while True:
 
-            await client.write_gatt_char(
-                CHAR,
-                KEEPALIVE,
-                response=False
-            )
+            try:
 
-            print(
-                f"RAW={latest:<4} "
-                f"COLOR={COLOR_MAP.get(latest,'UNKNOWN')}"
-            )
+                await client.write_gatt_char(
+                    CHAR,
+                    KEEPALIVE,
+                    response=False
+                )
 
-            await asyncio.sleep(
-                0.2
-            )
+                print(
+                    latest,
+                    "->",
+                    COLOR_MAP.get(
+                        latest,
+                        "UNKNOWN"
+                    )
+                )
+
+                await asyncio.sleep(
+                    0.5
+                )
+
+            except KeyboardInterrupt:
+
+                break
 
 
 asyncio.run(main())
