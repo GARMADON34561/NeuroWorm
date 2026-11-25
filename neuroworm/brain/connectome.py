@@ -3,54 +3,120 @@ from brain.neuron import Neuron
 
 neurons = {
 
-    # sensory
+    # sensory neurons
 
-    "AWA": Neuron(threshold=1),
-    "AWB": Neuron(threshold=1),
+    "PLML": Neuron(threshold=1),
+    "PLMR": Neuron(threshold=1),
 
-    # integration
+    "ALML": Neuron(threshold=1),
+    "ALMR": Neuron(threshold=1),
 
-    "AIB": Neuron(threshold=1),
+    "AVM": Neuron(threshold=1),
 
-    # behaviours
+    # intermediary neurons
 
-    "AVA": Neuron(threshold=1),  # avoid
+    "PVCL": Neuron(threshold=1),
+    "PVCR": Neuron(threshold=1),
 
-    "AVB": Neuron(threshold=1),  # explore
+    # reverse command neurons
 
-    "RIM": Neuron(threshold=1),  # escape
+    "AVAL": Neuron(threshold=1),
+    "AVAR": Neuron(threshold=1),
+
+    # forward command neurons
+
+    "AVBL": Neuron(threshold=1),
+    "AVBR": Neuron(threshold=1),
+
+    # keep escape neuron for now
+
+    "RIM": Neuron(threshold=1)
 }
 
 
 connections = [
 
     {
-        "from": "AWA",
-        "to": "AIB",
+        "from": "ALML",
+        "to": "PVCL",
         "weight": 2
     },
 
     {
-        "from": "AWB",
-        "to": "AIB",
+        "from": "AVM",
+        "to": "PVCL",
         "weight": 1
     },
 
     {
-        "from": "AIB",
-        "to": "AVA",
+        "from": "PVCL",
+        "to": "AVAL",
         "weight": 2
     },
 
     {
-        "from": "AIB",
+        "from": "PVCL",
         "to": "RIM",
         "weight": 2
     },
 
     {
-        "from": "AWA",
-        "to": "AVB",
-        "weight": -1
+        "from": "PLML",
+        "to": "AVBL",
+        "weight": 1
     }
 ]
+
+
+def explore():
+
+    if neurons["AVBL"].stimulate():
+
+        print("AVBL FIRED")
+
+        return "EXPLORE"
+
+    return "WAIT"
+
+
+def investigate():
+
+    if neurons["AVM"].stimulate():
+
+        print("AVM FIRED")
+
+        return "INVESTIGATE"
+
+    return "WAIT"
+
+
+def avoid():
+
+    if neurons["ALML"].stimulate():
+
+        print("ALML FIRED")
+
+        if neurons["PVCL"].stimulate(2):
+
+            print("PVCL FIRED")
+
+            if neurons["AVAL"].stimulate(2):
+
+                print("AVAL FIRED")
+
+                return "AVOID"
+
+    return "WAIT"
+
+
+def escape():
+
+    if neurons["PVCL"].stimulate(2):
+
+        if neurons["RIM"].stimulate(2):
+
+            print("RIM FIRED")
+
+            return "ESCAPE"
+
+    return "WAIT"
